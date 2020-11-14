@@ -38,6 +38,13 @@ and6 x y = if x then y else False
 mult7 :: Int -> Int -> Int -> Int
 mult7 = \x -> \y -> \z -> x*y*z
 
+--8
+luhnDouble :: Int -> Int
+luhnDouble n = n*2 - if (n > 4) then 9 else 0
+
+luhn :: Int -> Int -> Int -> Int -> Bool
+luhn n1 n2 n3 n4 = luhnSum `mod` 10 == 0
+    where luhnSum = (luhnDouble n1) + n2 + (luhnDouble n3) + n4
 
 main :: IO()
 main = do
@@ -52,4 +59,5 @@ main = do
     print (True `and5` False)
     print (True `and6` False)
     print(mult7 3 4 2)
-    
+    print (luhn 1 7 8 4)
+    print (luhn 4 7 8 3)
