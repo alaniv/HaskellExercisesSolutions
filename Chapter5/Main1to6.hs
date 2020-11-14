@@ -17,6 +17,13 @@ replicate2 n e = [e | _ <- [1..n]]
 pyths :: Int -> [(Int, Int, Int)]
 pyths n = [(x,y,z) | x <- [1..n], y <- [1..n], z <- [1..n], x^2 + y^2 == z^2]
 
+-- ex 6
+divisors :: Int -> [Int]
+divisors n = [ x | x <- [1..n], n `mod` x == 0]
+
+perfects :: Int -> [Int]
+perfects n = [ x | x <- [1..n] , sum (divisors x) == 2*x ]
+
 main :: IO ()
 main = do
     print(sumSquares)
@@ -24,3 +31,4 @@ main = do
     print(square 2)
     print(replicate2 3 True)
     print(pyths 10)
+    print(perfects 496)
