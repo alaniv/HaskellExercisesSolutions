@@ -38,6 +38,10 @@ positions x xs = [ i |  (x', i) <- zip xs [0..], x == x']
 positions2 :: Eq a => a -> [a] -> [Int]
 positions2 x xs = find x (zip xs [0..])
 
+--ex9
+scalarProd :: [Int] -> [Int] -> Int
+scalarProd xs ys = sum [ x*y | (x,y) <- zip xs ys ]
+
 main :: IO ()
 main = do
     print(sumSquares)
@@ -48,3 +52,4 @@ main = do
     print(perfects 496)
     print(pairs)
     print(positions2 1 [1,2,3,4,1,2,3,4])
+    print(scalarProd [1,2,3] [4,5,6])
