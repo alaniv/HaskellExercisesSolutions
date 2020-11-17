@@ -44,7 +44,31 @@ balance xs = Node2 (balance xs1) (balance xs2)
             where (xs1, xs2) = halve xs
 
 -- ex5
+data Expr = Val Int | Add Expr Expr
+folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
+folde f g (Val i) = f i
+folde f g (Add e1 e2) = g (folde f g e1) (folde f g e2)
 
+-- ex6
+eval :: Expr -> Int
+eval e = folde id (+) e
+
+size :: Expr -> Int
+size e = folde (\x -> 1) (+) e
+
+-- ex7
+-- data Maybe a = Just a | Nothing
+{-
+instance Eq a => Eq (Maybe a) where
+    Just x == Just y = (x == y)
+    Nothing == Nothing = True
+    _ == _ = False
+
+instance Eq a => Eq [a] where
+    [] == [] = True
+    (x:xs) == (y:ys) = (x == y) && (xs == ys)
+    _ == _ = False
+-}
 main :: IO ()
 main = do
     print("nada")
