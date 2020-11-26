@@ -40,6 +40,13 @@ instance Applicative ZipList where
     -- <*> :: ZipList (a -> b) -> ZipList a -> ZipList b
     (Z gs) <*> (Z xs) = Z [ g x | (g,x) <- zip gs xs]
 
+-- ex5
+{- duplicated Defined in GHC.Base
+instance Monad ((->) c) where
+    -- (>>=) :: (c -> a) -> (a -> (c -> b)) -> (c -> b)
+    (fca >>= g) xc = g (fca xc) xc
+-}
+
 main :: IO ()
 main = do
     print $ fmap (+1) (Node Leaf 22 Leaf)
