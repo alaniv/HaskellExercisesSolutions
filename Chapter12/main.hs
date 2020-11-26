@@ -26,6 +26,22 @@ instance Applicative ((->) c) where
     -- fullfills the 4 applicative laws.
 --}
 
+-- ex4
+newtype ZipList a = Z [a] deriving Show
+
+instance Functor ZipList where
+    --fmap :: (a -> b) -> ZipList a -> ZipList b
+    fmap g (Z xs) = Z (fmap g xs)
+    
+instance Applicative ZipList where
+    -- pure :: a -> ZipList a
+    pure x = Z (fmap (const x) [1..] ) -- repeat x
+    
+    -- <*> :: ZipList (a -> b) -> ZipList a -> ZipList b
+    (Z gs) <*> (Z xs) = Z [ g x | (g,x) <- zip gs xs]
+
 main :: IO ()
 main = do
     print $ fmap (+1) (Node Leaf 22 Leaf)
+    print $ Z [1,2,3]
+    -- print $ (pure 'a' :: ZipList Char)
