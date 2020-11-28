@@ -39,3 +39,33 @@ instance Traversable Maybe where
     traverse _ Nothing = pure Nothing
     traverse g (Just xa) = Just (g xa)
 -}
+
+-- ex4
+import Data.Foldable
+data Tree a = Leaf | Node (Tree a) a (Tree a)
+    deriving Show
+
+instance Functor Tree where
+    -- fmap :: (a -> b) -> Tree a -> Tree b
+    fmap g Leaf = Leaf
+    fmap g (Node tl e tr) = Node (fmap g tl) (g e) (fmap g tr)
+
+instance Foldable Tree where
+    -- fold :: Monoid a => Tree a -> a
+    fold Leaf = mempty
+    fold (Node tl val tr) = (fold tl) `mappend` val `mappend` (fold tr)
+    -- foldMap :: Monoid b => (a -> b) -> Tree a -> b
+    foldMap fa Leaf = mempty
+    foldMap fa (Node tl val tr) = (foldMap fa tl) `mappend` (fa val) `mappend` (foldMap fa tr)
+    -- foldr :: (a -> b -> b) -> b -> Tree a -> b
+    foldr fab xb Leaf = xb
+    foldr fab xb (Node tl val tr) = foldr fab (fab val (foldr fab xb tl)) tr
+
+    --foldl :: (a -> b -> a) -> a -> Tree b -> a
+    foldl fab xa Leaf = xa
+    foldl fab xa (Node tl val tr) = foldl fab (fab (foldl fab xa tl) val) tr
+    
+instance Traversable Tree where
+    --traverse :: Applicative f => (a -> f b) -> Tree a -> f (Tree b)
+    traverse g Leaf = pure Leaf
+    traverse g (Node tl val tr) = pure Node <*> (traverse g tl) <*> (g val ) <*> (traverse g tr)
