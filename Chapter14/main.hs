@@ -69,3 +69,11 @@ instance Traversable Tree where
     --traverse :: Applicative f => (a -> f b) -> Tree a -> f (Tree b)
     traverse g Leaf = pure Leaf
     traverse g (Node tl val tr) = pure Node <*> (traverse g tl) <*> (g val ) <*> (traverse g tr)
+    
+-- ex5
+filterF :: Foldable t => (a -> Bool) -> t a -> [a]
+filterF pred xfa = foldMap (\x -> if (pred x) then [x] else []) xfa
+
+main :: IO ()
+main = do
+    print $ filterF (\x -> x == 1) [1,2,3,4]
